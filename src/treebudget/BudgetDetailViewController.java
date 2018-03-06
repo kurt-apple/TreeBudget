@@ -11,20 +11,36 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 
 public class BudgetDetailViewController implements Initializable {
-    @FXML private Label nameLabel, immediacyLabel, AROLabel, AmountLabel, ALELabel, CashedAmountLabel, InvestedAmountLabel;
-    @FXML private TextField nameField, immediacyField, AROField, AmountField, ALEField, CashedAmountField, InvestedAmountField;
-    @FXML private Button OKButton, CancelButton;
+    @FXML private Label nameLabel, 
+                        immediacyLabel, 
+                        AROLabel, 
+                        AmountLabel, 
+                        ALELabel, 
+                        CashedAmountLabel, 
+                        InvestedAmountLabel;
+    @FXML private TextField nameField, 
+                            immediacyField, 
+                            AROField, 
+                            AmountField, 
+                            ALEField, 
+                            CashedAmountField, 
+                            InvestedAmountField;
+    @FXML private Button    OKButton, 
+                            CancelButton;
     
     @FXML private TextField parentSearchBox;
     @FXML private Button parentSearchButton;
-    @FXML private ListView<ObservableTreeBudgetItem> parentSearchResultsListView;
+    @FXML private ListView<ObservableTreeBudgetItem> parentSearchResultsLV;
     @FXML private Label parentNameLabel;
     
     private static ObservableTreeBudgetItem budgetItem;
     
     @Override public void initialize(URL url, ResourceBundle rb) {
-        if(budgetItem.getParent() == null) parentNameLabel.setText("Parent: is Root Item");
-        else parentNameLabel.setText("Parent: " + budgetItem.getParent().getItemName());
+        if(budgetItem.getParent() == null) {
+            parentNameLabel.setText("Parent: is Root Item"); }
+        else {
+            parentNameLabel.setText(
+                "Parent: " + budgetItem.getParent().getItemName()); }
         OKButton.setText("OK");
         CancelButton.setText("Cancel");
         nameLabel.setText("Name");
@@ -52,17 +68,22 @@ public class BudgetDetailViewController implements Initializable {
         AROField.setText(Double.toString(utils.rd(budgetItem.getARO())));
         AmountField.setText(utils.cashFormat(budgetItem.getAmount()));
         ALEField.setText(utils.cashFormat(budgetItem.getALE()));
-        CashedAmountField.setText(utils.cashFormat(budgetItem.getCashedAmount()));
-        InvestedAmountField.setText(utils.cashFormat(budgetItem.getInvestedAmount())); }
+        CashedAmountField.setText(
+            utils.cashFormat(budgetItem.getCashedAmount()));
+        InvestedAmountField.setText(
+            utils.cashFormat(budgetItem.getInvestedAmount())); }
     
     @FXML public void OKButtonPressed() {
-        ObservableTreeBudgetItem item = TreeBudget.getBudget().contains(nameField.getText());
+        ObservableTreeBudgetItem item = 
+            TreeBudget.getBudget().contains(nameField.getText());
         if(item != null && !budgetItem.equals(item)) {
-            utils.spawn("Another item exists with that name.", x -> utils.errorbox(x));
+            utils.spawn("Another item exists with that name.", 
+                x -> utils.errorbox(x));
             return; }
         else {
             budgetItem.setItemName(nameField.getText());
-            budgetItem.setImmediacy(Integer.parseInt(immediacyField.getText()));
+            budgetItem.setImmediacy(
+                Integer.parseInt(immediacyField.getText()));
             budgetItem.setARO(Double.parseDouble(AROField.getText()));
             String s = AmountField.getText();
             s = s.replace("$", "");
@@ -75,20 +96,25 @@ public class BudgetDetailViewController implements Initializable {
     }
     
     @FXML public void CancelButtonPressed() {
-        if(utils.spawn("Are you sure you want to cancel?", x -> utils.choicebox(x))) {
+        if(utils.spawn("Are you sure you want to cancel?", 
+            x -> utils.choicebox(x))) {
             utils.closeCurrentWindow(CancelButton);
         }
     }
     
     @FXML public void ParentSearchButtonPressed() {
         if(!parentSearchBox.getText().isEmpty()) {
-            parentSearchResultsListView.getItems().setAll(TreeBudget.getBudget().query(parentSearchBox.getText()));
-            parentSearchResultsListView.setOnMouseClicked(x -> {
+            parentSearchResultsLV.getItems().setAll(
+                TreeBudget.getBudget().query(parentSearchBox.getText()));
+            parentSearchResultsLV.setOnMouseClicked(x -> {
                 if(x.getButton().equals(MouseButton.PRIMARY)) {
                     if(x.getClickCount() == 2) {
-                        ObservableTreeBudgetItem y = parentSearchResultsListView.getSelectionModel().getSelectedItem();
+                        ObservableTreeBudgetItem y = 
+                            parentSearchResultsLV.getSelectionModel()
+                                                 .getSelectedItem();
                         y.addSubItem(budgetItem);
-                        parentNameLabel.setText("Current Parent: " + y.getItemName());
+                        parentNameLabel.setText(
+                            "Current Parent: " + y.getItemName());
                     }
                 }
             });

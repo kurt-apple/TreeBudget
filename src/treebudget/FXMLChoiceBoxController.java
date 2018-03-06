@@ -10,7 +10,8 @@ import javafx.scene.control.Label;
 public class FXMLChoiceBoxController implements Initializable {
     @FXML private Label BoxMessage;
     @FXML private Button yesButton, noButton;
-    @Override public void initialize(URL url, ResourceBundle rb) { BoxMessage.setText(utils.msgString); }
+    @Override public void initialize(URL url, ResourceBundle rb) { 
+        BoxMessage.setText(utils.msgString); }
     @FXML public void handleNoButton() {
         utils.choice = false;
         utils.closeCurrentWindow(noButton);

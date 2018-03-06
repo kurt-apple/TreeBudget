@@ -44,7 +44,9 @@ public class ObservableTreeBudgetItem {
     	return ARO.getValue(); }
     
     public Double getAmount() { 
-        //if(this.getItemName().equalsIgnoreCase(TreeBudget.getBudget().getItemName())) System.out.println(this.Amount.get());
+        //if(this.getItemName().equalsIgnoreCase(
+            //TreeBudget.getBudget().getItemName())) {
+                //System.out.println(this.Amount.get()); }
     	return Amount.getValue(); }
     
     public Double getALE() {	
@@ -53,7 +55,11 @@ public class ObservableTreeBudgetItem {
     
     public Double getCashedAmount() { 
     	if(SubItems.isEmpty()) {
-            CashedAmount.set(utils.rd(Immediacy.get()*0.1*ARO.get()*Amount.get() + (1-TreeBudget.getInvestmentConfidence())*(10-Immediacy.get())*0.1*ARO.get()*Amount.get())); }
+            CashedAmount.set(
+                utils.rd(
+                    Immediacy.get()*0.1*ARO.get()*Amount.get() 
+                    + (1-TreeBudget.getInvestmentConfidence())
+                        * (10-Immediacy.get())*0.1*ARO.get()*Amount.get())); }
     	return CashedAmount.getValue(); }
     
     public Double getInvestedAmount() { 
@@ -132,7 +138,8 @@ public class ObservableTreeBudgetItem {
             for(ObservableTreeBudgetItem Item : SubItems) {
                 sumamount += Item.getALE(); }
             Amount.set(sumamount);
-            //if(this.getItemName().equalsIgnoreCase(TreeBudget.getBudget().getItemName())) System.out.println(this.Amount.get());
+            //if(this.getItemName().equalsIgnoreCase(TreeBudget.getBudget()
+                //.getItemName())) System.out.println(this.Amount.get());
             ALE.set(sumamount);
             sumamount = 0.0;
             for(ObservableTreeBudgetItem Item : SubItems) {
@@ -149,7 +156,9 @@ public class ObservableTreeBudgetItem {
         }
         else {
             ALE.set(/*Confidence.get()**/ARO.get()*Amount.get());
-            CashedAmount.set(Immediacy.get()*0.1*ARO.get()*Amount.get() + (1-TreeBudget.getInvestmentConfidence())*(10-Immediacy.get())*0.1*ARO.get()*Amount.get());
+            CashedAmount.set(Immediacy.get()*0.1*ARO.get()*Amount.get() 
+                + (1-TreeBudget.getInvestmentConfidence())
+                    * (10-Immediacy.get())*0.1*ARO.get()*Amount.get());
             InvestedAmount.set(ALE.get()*(10-Immediacy.get())*0.1);
             TotalCost.set(InvestedAmount.get() + CashedAmount.get());
             if(ParentItem != null) {
@@ -206,7 +215,9 @@ public class ObservableTreeBudgetItem {
     public LinkedList<String> toStrings() {
         LinkedList<String> linesToWrite = new LinkedList<>();
         if(SubItems.isEmpty()) {
-            linesToWrite.add("i " + this.ItemName.get() + "\t" + this.Amount.get() + "\t" + this.ARO.get() + "\t" + this.Immediacy.get());
+            linesToWrite.add("i " + this.ItemName.get() + "\t" 
+                + this.Amount.get() + "\t" + this.ARO.get() 
+                + "\t" + this.Immediacy.get());
             return linesToWrite; }
         else {
             SubItems.forEach(x -> linesToWrite.addAll(x.toStrings()));
@@ -216,7 +227,9 @@ public class ObservableTreeBudgetItem {
         return linesToWrite; }
     
     public ObservableList<ObservableTreeBudgetItem> query(String query) {
-        ObservableList<ObservableTreeBudgetItem> resultsList = FXCollections.observableList(new LinkedList<ObservableTreeBudgetItem>());
+        ObservableList<ObservableTreeBudgetItem> resultsList = 
+            FXCollections.observableList(
+                new LinkedList<ObservableTreeBudgetItem>());
         if(this.getItemName().toLowerCase().contains(query.toLowerCase())) {
             resultsList.add(this); }
         SubItems.forEach(x -> resultsList.addAll(x.query(query)));

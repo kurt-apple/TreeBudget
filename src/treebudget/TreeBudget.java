@@ -45,7 +45,8 @@ public class TreeBudget extends Application {
     public static String readLine(BufferedReader x) {
         try { 
             return x.readLine(); }
-        catch(IOException e) { utils.spawn("error reading line.", a -> utils.errorbox(a));
+        catch(IOException e) { utils.spawn("error reading line.", 
+            a -> utils.errorbox(a));
         return null; 
         }
     }
@@ -77,22 +78,30 @@ public class TreeBudget extends Application {
                 if(line.startsWith("Budget: Name ")) {
                     TreeLayerTemp = line.substring(13).split("\t");
                     Budget = new ObservableTreeBudgetItem(TreeLayerTemp[0]);
-                    InvestmentConfidence = Double.parseDouble(TreeLayerTemp[1].substring(11));
-                    InvestmentYield = Double.parseDouble(TreeLayerTemp[2].substring(9)); }
+                    InvestmentConfidence = 
+                        Double.parseDouble(TreeLayerTemp[1].substring(11));
+                    InvestmentYield = 
+                        Double.parseDouble(TreeLayerTemp[2].substring(9)); }
                 line = readLine(BudgetReader);
                 while(line != null) {
                     if(line.startsWith("p ")) {
                         TreeLayerTemp = line.substring(2).split("\t");
-                        tmpParentBudgetItem = new ObservableTreeBudgetItem(TreeLayerTemp[0]);
+                        tmpParentBudgetItem = 
+                            new ObservableTreeBudgetItem(TreeLayerTemp[0]);
                         for(int i = 1; i < TreeLayerTemp.length; i++) {
-                            tmpParentBudgetItem.addSubItem(Budget.contains(TreeLayerTemp[i])); }
+                            tmpParentBudgetItem.addSubItem(
+                                Budget.contains(TreeLayerTemp[i])); }
                         Budget.addSubItem(tmpParentBudgetItem); }
                     else if(line.startsWith("i ")) {
                         TreeLayerTemp = line.substring(2).split("\t");
-                        ObservableTreeBudgetItem tmpBudgetItem = new ObservableTreeBudgetItem(TreeLayerTemp[0]);
-                        tmpBudgetItem.setAmount(Double.parseDouble(TreeLayerTemp[1]));
-                        tmpBudgetItem.setARO(Double.parseDouble(TreeLayerTemp[2]));
-                        tmpBudgetItem.setImmediacy(Integer.parseInt(TreeLayerTemp[3]));
+                        ObservableTreeBudgetItem tmpBudgetItem = 
+                            new ObservableTreeBudgetItem(TreeLayerTemp[0]);
+                        tmpBudgetItem.setAmount(
+                            Double.parseDouble(TreeLayerTemp[1]));
+                        tmpBudgetItem.setARO(
+                            Double.parseDouble(TreeLayerTemp[2]));
+                        tmpBudgetItem.setImmediacy(
+                            Integer.parseInt(TreeLayerTemp[3]));
                         Budget.addSubItem(tmpBudgetItem); }
                     line = readLine(BudgetReader); 
                 }
@@ -114,7 +123,9 @@ public class TreeBudget extends Application {
     
     public static void saveToFile() {
         LinkedList<String> linesToWrite = new LinkedList<>();
-        linesToWrite.add("Budget: Name " + Budget.getItemName() + "\tConfidence: " + InvestmentConfidence + "\tExpYield: " + InvestmentYield);
+        linesToWrite.add("Budget: Name " + Budget.getItemName() 
+            + "\tConfidence: " + InvestmentConfidence 
+            + "\tExpYield: " + InvestmentYield);
         for(ObservableTreeBudgetItem item : Budget.getChildren()) {
             linesToWrite.addAll(item.toStrings()); }
         BufferedWriter filew;
